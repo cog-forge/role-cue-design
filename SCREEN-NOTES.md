@@ -1,737 +1,104 @@
-# RoleCue Batch 1 screen notes
+# RoleCue Canonical Screen Notes
+
+These notes follow the finalized screen/navigation contract. They define product purpose and navigation only; they do **not** prescribe a new composition, styling system, component implementation, or visual redesign. Target paths and statuses are synchronized with [`SCREEN-INVENTORY.md`](./SCREEN-INVENTORY.md).
+
+## Status and note rules
+
+- `EXISTING / NEEDS CONTENT SYNC` means the named PNG remains untouched but should not be treated as current product copy without a later screen-production pass.
+- `TO DESIGN` means a canonical target has no current approved PNG. These entries intentionally contain no invented visual layout.
+- `DRAW` is included in the navigation-flow contract; `DOC-ONLY` is a user-facing supporting view excluded from the flow drawing.
+- The hidden Blueprint and automated processing are not screen notes. Neither are credit gates, public pricing, Admin avatar/environment management, organizations, or ATS pipelines.
+
+## Public, authentication, and shared account
+
+| Name | Target PNG path | Classification | Purpose and primary action | Important information | Navigation in / out | UX constraints | Status |
+|---|---|---|---|---|---|---|---|
+| `PUB-01` — Public Landing Page | `screens/shared/marketing/landing-desktop-1440.png` | `DRAW` | Introduce RoleCue; register or enter the login journey. | Public value proposition and permitted account entry. | Public entry → registration or login. | Guest scope excludes public pricing, credit packages, and anonymous interview demos. | `EXISTING / NEEDS CONTENT SYNC` |
+| `AUTH-01` — Account Registration | `screens/shared/auth/register-desktop.png` | `DRAW` | Create an account and choose Candidate or Recruiter. | Role choice and required registration credentials. | Landing → verification notice. | Do not specify Better Auth internals. | `EXISTING / NEEDS CONTENT SYNC` |
+| `AUTH-01-SUB1` — Email Verification Notice | `screens/shared/auth/verify-email.png` | `DOC-ONLY` | Confirm verification dispatch; request a resend. | Delivery status and next step. | Registration → verified account/login journey. | Avoid revealing unnecessary account/security details. | `EXISTING / NEEDS CONTENT SYNC` |
+| `AUTH-02` — Account Login | `screens/shared/auth/login-desktop.png` | `DRAW` | Authenticate a registered user. | Credentials and role-resolved destination. | Landing or return visit → appropriate workspace. | Keep technical authentication mechanics out of UX copy. | `EXISTING / NEEDS CONTENT SYNC` |
+| `AUTH-03` — Forgot Password Request | `screens/shared/auth/forgot-password.png` | `DRAW` | Start the sole password-recovery journey. | Registered-email request and generic confirmation behavior. | Login → reset-link dispatched notice. | Never disclose whether an address is registered. | `EXISTING / NEEDS CONTENT SYNC` |
+| `AUTH-03-SUB1` — Password Reset Link Dispatched Notice | `screens/shared/auth/forgot-password-dispatched.png` | `DOC-ONLY` | Acknowledge recovery-link dispatch. | Recovery-next-step message. | Forgot Password → Set New Password via valid link. | It is part of Forgot Password, not a separate Reset Password use case. | `TO DESIGN` |
+| `AUTH-04` — Set New Password | `screens/shared/auth/reset-password.png` | `DRAW` | Set a replacement password through a recovery link. | New-password validation and recovery completion. | Valid recovery link → login. | Do not expose recovery token mechanics. | `EXISTING / NEEDS CONTENT SYNC` |
+| `SHARED-01` — User Profile | `screens/shared/account/user-profile.png` | `DRAW` | View or update own profile. | Personal details, contact information, and role metadata. | Any role workspace → profile → workspace or security. | Apply role isolation; do not imply organization membership. | `TO DESIGN` |
+| `SHARED-02` — Account Security & Password | `screens/shared/account/account-security.png` | `DRAW` | Manage account security. | Password and eligible two-factor settings. | Profile/account menu → change-password or 2FA subview. | Keep security actions explicit and accessible. | `TO DESIGN` |
+| `SHARED-02-SUB1` — Change Password Modal | `screens/shared/account/change-password-modal.png` | `DOC-ONLY` | Replace a known password. | Current and replacement-password inputs. | Account Security → dismiss or saved security state. | Confirmation and validation must be clear. | `TO DESIGN` |
+| `SHARED-02-SUB2` — Two-Factor Authentication Setup Modal | `screens/shared/account/two-factor-setup-modal.png` | `DOC-ONLY` | Set up 2FA where canonical eligibility applies. | Setup instruction and verification step. | Account Security → enabled security state. | Do not add speculative library/provider mechanics. | `TO DESIGN` |
+
+## Candidate workspace
+
+| Name | Target PNG path | Classification | Purpose and primary action | Important information | Navigation in / out | UX constraints | Status |
+|---|---|---|---|---|---|---|---|
+| `CAN-01` — Candidate Dashboard | `screens/candidate/dashboard.png` | `DRAW` | Provide the practice and career-workspace launch point. | Recent sessions, practice recommendations, and application status. | Candidate entry → Target JD, history, avatar studio, job board, applications, membership, or profile. | Lower-density, supportive workspace; no credit balance. | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-02` — Target JD Library | `screens/candidate/jd-empty-state.png` | `DRAW` | Manage private Target JDs for practice. | Saved/reviewed Target JD records. | Dashboard → add/reopen Target JD. | A Target JD is Candidate-owned and never a Recruiter Job Posting. | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-03` — Add Target JD | `screens/candidate/jd-add-job-description.png` | `DRAW` | Submit raw JD text or a PDF for extraction. | Raw input and upload requirements. | Dashboard/library → review extracted JD. | Extraction is a system process; do not make it a separate target screen. | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-04` — Review & Refine Extracted JD | `screens/candidate/jd-review-and-edit-skills.png` | `DRAW` | Review, amend, and confirm extracted technical requirements. | Role, seniority, technical skills, requirement type, technologies, and domain knowledge. | Add/reopen Target JD → Configure Interview Session. | Candidate may add refinement notes; no Blueprint preview or confirmation follows. | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-04-SUB1` — Refinement Notes Panel | `screens/candidate/jd-refinement-notes-panel.png` | `DOC-ONLY` | Add natural-language practice instructions. | Notes such as a technology/topic exclusion. | Within extracted-JD review → return to review. | Notes feed hidden Blueprint preparation and are not a separate configuration flow. | `TO DESIGN` |
+| `CAN-05` — Personal 3D Avatar Studio | `screens/candidate/personal-avatar-studio.png` | `DRAW` | Open creation and manage Candidate-owned persisted personal avatars. | Available personal-avatar records and conversion outcome. | Dashboard/configuration → Avaturn embedded experience → studio. | RoleCue does not control the photo capture/customization workflow. | `TO DESIGN` |
+| `CAN-05-SUB1` — Avaturn Embedded Experience | `screens/candidate/avaturn-embedded-experience.png` | `DRAW` | Hand the creation experience to embedded free Avaturn. | Avaturn-owned capture, preview, customization, and final GLB handoff. | Avatar studio → avatar studio after RoleCue conversion/persistence. | Do not describe Avaturn Pro API or paid orchestration. | `TO DESIGN` |
+| `CAN-05-SUB2` — Personal Avatar Confirmation & Preview | `screens/candidate/personal-avatar-confirmation.png` | `DOC-ONLY` | Confirm an eligible converted personal avatar. | Candidate-owned VRM availability after successful conversion. | Avaturn handoff → avatar studio. | Do not mark an avatar available if conversion fails. | `TO DESIGN` |
+| `CAN-06` — Configure Interview Session | `screens/candidate/configure-interview-session.png` | `DRAW` | Configure the Candidate's Target JD practice session. | Allowed interviewer option, Voice Profile, environment, difficulty, and duration/question budget. | Confirmed Target JD → readiness; may open avatar studio from interviewer choice. | One composite capability; do not fragment into formal environment/interviewer/voice screens. | `TO DESIGN` |
+| `CAN-07` — Test Audio & Interview Readiness | `screens/candidate/preflight-ready.png` | `DRAW` | Verify readiness before entering the live room. | Microphone, audio playback, and rendering readiness. | Configuration or Job Posting application → live room or device-error dialog. | Supportive recovery language; no credit gate. | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-07-SUB1` — Readiness Device Error Dialog | `screens/candidate/preflight-permission-required.png` | `DOC-ONLY` | Help resolve permission or device problems. | The failed/required capability and recovery action. | Readiness → retry or readiness state. | Accessible status and non-proctoring error language. | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-08` — Live 3D Interview Room | `screens/candidate/live-3d-interview-room.png` | `DRAW` | Conduct a real-time spoken technical interview. | Turn ownership, generic Question, audio state, and essential session controls. | Readiness → report when no further Question remains; pause/exit modal when requested. | Dedicated runtime focus; no exposed Blueprint, rubric, Core Question, or Follow-up path. | `TO DESIGN` |
+| `CAN-08-SUB1` — Interview Session Pause / Exit Modal | `screens/candidate/interview-pause-exit-modal.png` | `DRAW` | Pause, resume, or end a session after confirmation. | Current-session consequence and choices. | Live room ↔ pause/exit modal → dashboard only after explicit early termination. | Never show a credit consequence. | `TO DESIGN` |
+| `CAN-08-SUB2` — 2D Waveform Fallback View | `screens/candidate/interview-2d-waveform-fallback.png` | `DOC-ONLY` | Continue spoken interaction when 3D is unavailable. | Degraded rendering status and audio interaction. | Live room fallback → live interaction where supported. | Preserve the audio conversation; do not promise an unrelated portrait fallback. | `TO DESIGN` |
+| `CAN-09` — Interview Performance Report | `screens/candidate/interview-performance-report.png` | `DRAW` | Review the immutable evaluation result. | Scores, feedback, and learning roadmap. | Completed live room/history → report; repeat practice returns to configuration. | Report reflects the stored session context; no Blueprint exposure. | `TO DESIGN` |
+| `CAN-09-SUB1` — Turn Critiques & Model Answers | `screens/candidate/turn-critiques-model-answers.png` | `DOC-ONLY` | Inspect response-level feedback. | Critiques and technical benchmark guidance. | Performance report → report overview. | Use plain, constructive learning language. | `TO DESIGN` |
+| `CAN-09-SUB2` — Actionable Learning Roadmap | `screens/candidate/actionable-learning-roadmap.png` | `DOC-ONLY` | Review next study/practice actions. | Prioritized topics, references, and tasks. | Performance report → report overview or repeat practice. | Keep recommendations actionable, not punitive. | `TO DESIGN` |
+| `CAN-09-SUB3` — Export Report Dialog | `screens/candidate/export-report-dialog.png` | `DRAW` | Choose and download an export of a stored report. | Export selection and completion status. | Performance report → report. | Export must not alter the stored result. | `TO DESIGN` |
+| `CAN-10` — Interview History | `screens/candidate/interview-history.png` | `DRAW` | Browse past practice sessions. | Session list, score/status, and report entry. | Dashboard → report or repeat practice configuration. | Preserve historical session/report associations. | `TO DESIGN` |
+| `CAN-11` — Job Board (Browse Postings) | `screens/candidate/job-board.png` | `DRAW` | Search approved Recruiter Job Postings. | Posting search/filter criteria and approved results. | Dashboard → Job Posting detail. | Only approved active postings are browseable; no public pricing. | `TO DESIGN` |
+| `CAN-12` — Job Posting Detail | `screens/candidate/job-posting-detail.png` | `DRAW` | Inspect an approved Job Posting and choose Apply. | Requirements, application instructions, and locked company interviewer/Voice Profile context. | Job board → application/CV upload. | Job Posting is the company JD; do not create a Corporate JD. | `TO DESIGN` |
+| `CAN-13` — Job Application & CV Upload | `screens/candidate/job-application-cv-upload.png` | `DRAW` | Provide application information and required CV/resume. | Submission prerequisites and required Job Posting interview. | Job Posting detail → readiness for required interview. | Recruiter-defined interviewer and Voice Profile are fixed; Candidate cannot override them. | `TO DESIGN` |
+| `CAN-13-SUB1` — Application Submitted Confirmation | `screens/candidate/application-submitted-confirmation.png` | `DOC-ONLY` | Confirm completed application delivery. | CV and attached Interview Result submission status. | Completed required interview → My Applications Tracking. | Application is only available to the Recruiter after required interview completion. | `TO DESIGN` |
+| `CAN-14` — My Applications Tracking | `screens/candidate/my-applications-tracking.png` | `DRAW` | Track own submitted applications. | Pending, Approved, or Rejected status. | Dashboard/confirmation → application dossier or job board. | Do not imply multi-stage ATS statuses. | `TO DESIGN` |
+| `CAN-14-SUB1` — Application Dossier & Result Viewer | `screens/candidate/application-dossier-result-viewer.png` | `DOC-ONLY` | Inspect own submission and attached Interview Result. | Candidate application details, CV, and result. | My Applications Tracking → tracking list. | Candidate access is limited to own applications. | `TO DESIGN` |
+| `CAN-15` — Membership & Billing | `screens/candidate/membership-billing.png` | `DRAW` | View membership entitlement and subscription choices. | Active status, renewal, and available membership options. | Dashboard → checkout/transaction history/unsubscribe. | No credit wallet, credit packs, or per-interview deductions. | `TO DESIGN` |
+| `CAN-15-SUB1` — Payment Gateway Checkout Redirect | `screens/candidate/payment-gateway-checkout-redirect.png` | `DOC-ONLY` | Hand checkout to the external payment gateway. | External-boundary status. | Membership → external gateway → membership outcome. | Do not assume a gateway-specific interface. | `TO DESIGN` |
+| `CAN-15-SUB2` — Unsubscribe Confirmation Dialog | `screens/candidate/unsubscribe-confirmation-dialog.png` | `DRAW` | Confirm recurring-membership cancellation. | Cancellation impact and confirmation. | Membership → membership state. | Explicit confirmation required. | `TO DESIGN` |
+| `CAN-15-SUB3` — Payment Transaction History | `screens/candidate/payment-transaction-history.png` | `DOC-ONLY` | View own membership transaction records. | Payment status, amount, date, and receipt context. | Membership → membership state. | Transaction history is financial record, not a credit-use ledger. | `TO DESIGN` |
+
+## Recruiter workspace
+
+| Name | Target PNG path | Classification | Purpose and primary action | Important information | Navigation in / out | UX constraints | Status |
+|---|---|---|---|---|---|---|---|
+| `REC-01` — Recruiter Dashboard | `screens/recruiter/recruiter-dashboard.png` | `DRAW` | Enter Job Posting and Application operations. | Own posting/applicant summary and primary actions. | Recruiter entry → create/manage posting, applications, or profile. | Medium-density operational workspace; no company tenancy. | `TO DESIGN` |
+| `REC-02` — My Job Postings Management | `screens/recruiter/my-job-postings-management.png` | `DRAW` | Search and manage own Job Postings. | Own posting records and moderation/archival status. | Dashboard → create/edit/archive posting or received applications. | Direct recruiter ownership only; not a company workspace. | `TO DESIGN` |
+| `REC-02-SUB1` — Archive Job Posting Dialog | `screens/recruiter/archive-job-posting-dialog.png` | `DOC-ONLY` | Confirm archive of an own posting. | Posting identity and archive consequence. | Job Postings Management → refreshed posting state. | Archived postings leave candidate search; no restoration flow is invented. | `TO DESIGN` |
+| `REC-03` — Create Job Posting | `screens/recruiter/create-job-posting.png` | `DRAW` | Draft a Job Posting and submit it for moderation. | JD-like content, extracted information, and required company interview configuration. | Dashboard/posting list → extraction/configuration subviews → management after submission. | A Job Posting is the company JD; no separate Corporate JD. | `TO DESIGN` |
+| `REC-03-SUB1` — AI Extraction Review & Confirmation | `screens/recruiter/job-posting-ai-extraction-review.png` | `DOC-ONLY` | Review and confirm extracted technical information. | Extracted Job Posting competency data. | Create Job Posting → company interviewer/Voice configuration. | Confirmation precedes moderation submission. | `TO DESIGN` |
+| `REC-03-SUB2` — Configure Company 3D Interviewer & Voice | `screens/recruiter/configure-company-interviewer-voice.png` | `DOC-ONLY` | Set the interviewer model and Voice Profile required for applicants. | Allowed company interviewer and Voice Profile. | Create Job Posting → submission for Admin approval. | Candidate cannot override these settings in a posting interview. | `TO DESIGN` |
+| `REC-04` — Edit Job Posting | `screens/recruiter/edit-job-posting.png` | `DRAW` | Update an own Job Posting. | Requirements, description, and metadata. | Posting management → posting management after save. | Recruiter may edit only own postings; do not add tenant roles. | `TO DESIGN` |
+| `REC-05` — Received Applications List | `screens/recruiter/received-applications-list.png` | `DRAW` | Find completed applications for own postings. | Posting/status filters and candidate application records. | Dashboard/posting management → application detail. | No ranking, Kanban stages, scheduling, or multi-stage pipeline. | `TO DESIGN` |
+| `REC-06` — Application Detail & Review | `screens/recruiter/application-detail-review.png` | `DRAW` | Inspect an application before a definitive decision. | Candidate information, CV/resume, and attached Interview Result. | Received Applications → result viewer or adjudication dialog. | Access only applications to own postings; no automated hiring decision. | `TO DESIGN` |
+| `REC-06-SUB1` — Attached Interview Result Viewer | `screens/recruiter/attached-interview-result-viewer.png` | `DRAW` | Inspect the application-attached result. | Performance Report, score context, and transcript. | Application detail → application detail. | Result must belong to the same Candidate and Job Posting. | `TO DESIGN` |
+| `REC-06-SUB2` — Application Adjudication Dialog | `screens/recruiter/application-adjudication-dialog.png` | `DOC-ONLY` | Record Approve or Reject. | Final binary decision and confirmation. | Application detail → final Approved or Rejected application state. | Recruitment scope terminates here; decision is not an ATS stage. | `TO DESIGN` |
+
+## Administrator operations workspace
+
+| Name | Target PNG path | Classification | Purpose and primary action | Important information | Navigation in / out | UX constraints | Status |
+|---|---|---|---|---|---|---|---|
+| `ADM-01` — Admin Governance Console | `screens/admin/admin-governance-console.png` | `DRAW` | Enter accepted platform-governance operations. | Moderation, sessions, voice, and financial-operation context. | Admin entry → permitted operational modules. | High-density operations; exclude 3D avatar/environment catalog management. | `TO DESIGN` |
+| `ADM-02` — Account Governance (User List) | `screens/admin/account-governance-user-list.png` | `DRAW` | Search and inspect registered accounts. | Candidate and Recruiter account records. | Governance console → account detail. | Account administration, not organization management. | `TO DESIGN` |
+| `ADM-03` — Account Detail & Lock/Unlock | `screens/admin/account-detail-lock-unlock.png` | `DRAW` | Inspect and lock or unlock an account. | Account profile/activity and security status. | User list → user list after action. | Security action requires clear confirmation and role-bound authority. | `TO DESIGN` |
+| `ADM-04` — Job Posting Moderation Queue | `screens/admin/job-posting-moderation-queue.png` | `DRAW` | Find Recruiter submissions awaiting publication moderation. | Pending Job Postings and moderation context. | Governance console → Job Posting review. | Only Administrator approval makes a posting public. | `TO DESIGN` |
+| `ADM-05` — Job Posting Review & Approval | `screens/admin/job-posting-review-approval.png` | `DRAW` | Inspect and moderate a submitted Job Posting. | Content, competencies, and Recruiter-selected company interviewer/Voice Profile. | Moderation queue → decision dialog → queue. | Admin moderates; does not configure the company interviewer or voice. | `TO DESIGN` |
+| `ADM-05-SUB1` — Moderation Decision Dialog | `screens/admin/moderation-decision-dialog.png` | `DOC-ONLY` | Record approval or rejection. | Decision and required reason note. | Job Posting review → moderation queue. | Clear, auditable decision; no publication before approval. | `TO DESIGN` |
+| `ADM-06` — Interview Sessions Oversight | `screens/admin/interview-sessions-oversight.png` | `DRAW` | Search and monitor interview sessions. | Operational statuses and session records. | Governance console → session detail. | Operational diagnostics must respect Candidate session privacy. | `TO DESIGN` |
+| `ADM-07` — Interview Session Detail | `screens/admin/interview-session-detail.png` | `DRAW` | Inspect operational session details. | Metadata, duration, and error flags. | Session oversight → session oversight. | Do not invent an unrestricted content-browsing workflow. | `TO DESIGN` |
+| `ADM-08` — Interview Feature Configuration | `screens/admin/interview-feature-configuration.png` | `DRAW` | Configure permitted runtime parameters/toggles. | Platform-wide limits and feature settings. | Governance console → configuration. | Changes apply prospectively; no new candidate-facing configuration use cases. | `TO DESIGN` |
+| `ADM-09` — AI Behaviour Management | `screens/admin/ai-behaviour-management.png` | `DRAW` | Govern prompt templates and Question guidance. | System prompt templates and behavior instructions. | Governance console → prompt editor. | Use generic Question terminology; no separate Core/Follow-up UX model. | `TO DESIGN` |
+| `ADM-09-SUB1` — Prompt Template Editor Drawer | `screens/admin/prompt-template-editor-drawer.png` | `DOC-ONLY` | Edit a prompt template. | Editable prompt content and change context. | AI Behaviour Management → management view. | Changes must not retroactively alter stored reports. | `TO DESIGN` |
+| `ADM-10` — Evaluation Criteria Calibration | `screens/admin/evaluation-criteria-calibration.png` | `DRAW` | Maintain evaluation criteria and weighting. | Rubric templates and scoring weights. | Governance console → rubric editor. | Changes apply to future sessions only. | `TO DESIGN` |
+| `ADM-10-SUB1` — Rubric Template Editor Drawer | `screens/admin/rubric-template-editor-drawer.png` | `DOC-ONLY` | Edit a rubric template. | Criterion and weighting context. | Evaluation Criteria Calibration → calibration view. | Do not expose this as a Candidate Blueprint editor. | `TO DESIGN` |
+| `ADM-11` — Voice Profile Catalog | `screens/admin/voice-profile-catalog.png` | `DRAW` | Curate supported provider-sourced TTS Voice Profiles. | Available profile metadata and curation actions. | Governance console → fetch/delete subviews. | Admin manages voices only, not 3D avatars or room environments. | `TO DESIGN` |
+| `ADM-11-SUB1` — Delete Voice Profile Dialog | `screens/admin/delete-voice-profile-dialog.png` | `DOC-ONLY` | Confirm voice-profile deactivation/deletion. | Voice identity and consequence. | Voice Profile Catalog → catalog. | Explicit confirmation and provider-sourced scope. | `TO DESIGN` |
+| `ADM-12` — Fetch Voice Profiles Modal | `screens/admin/fetch-voice-profiles-modal.png` | `DRAW` | Discover/import profiles from a TTS provider. | Provider fetch outcome and profiles available for curation. | Voice Profile Catalog → catalog. | Do not invent voice-generation or unrelated provider controls. | `TO DESIGN` |
+| `ADM-13` — Payment Transactions Ledger | `screens/admin/payment-transactions-ledger.png` | `DRAW` | Inspect Candidate membership transactions. | Financial transaction records. | Governance console → revenue report or price update. | This is membership finance, not credit operations or refund queues. | `TO DESIGN` |
+| `ADM-14` — Revenue Report Generator | `screens/admin/revenue-report-generator.png` | `DRAW` | Generate aggregate membership-revenue reporting. | Period-based financial aggregation. | Payment ledger → price update or ledger. | Avoid public-pricing or credit-package claims. | `TO DESIGN` |
+| `ADM-15` — Update Membership Price Modal | `screens/admin/update-membership-price-modal.png` | `DRAW` | Update active Candidate membership pricing. | Current and proposed membership price. | Financial governance → financial governance. | Apply clear confirmation; do not introduce Recruiter billing or corporate plans. | `TO DESIGN` |
+
+## Historical note retirement
 
-## Marketing / Landing / Desktop / 1440
-
-Path:
-screens/shared/marketing/landing-desktop-1440.png
-
-Classification:
-MARKETING SCREEN
-
-Purpose:
-Introduce RoleCue as a calm, role-specific technical interview preparation product and make the first practice path legible.
-
-Primary action:
-Start a practice.
-
-Important information:
-The reviewed-role premise, structured practice value, and a framed sample blueprint proof object.
-
-Navigation:
-Public entry point with sign-in, approach, pricing, and practice entry routes.
-
-UX constraints:
-The visual uses source-system construction geometry and scarce lime markers; the blueprint is illustrative role context, not live candidate data.
-
-## Marketing / Landing / Mobile / 390
-
-Path:
-screens/shared/marketing/landing-mobile-390.png
-
-Classification:
-MARKETING SCREEN
-
-Purpose:
-Preserve the public story and single practice conversion on a narrow mobile composition.
-
-Primary action:
-Start a practice.
-
-Important information:
-The reviewed-role premise, compact evidence tags, and a readable blueprint stage.
-
-Navigation:
-Mobile public entry with direct practice and sign-in routes.
-
-UX constraints:
-Content remains single-column with no horizontal dependency; the proof object is simplified without losing its framed role-context meaning.
-
-## Marketing / Pricing / Desktop
-
-Path:
-screens/shared/marketing/pricing-desktop.png
-
-Classification:
-MARKETING SCREEN
-
-Purpose:
-Explain credits without presenting unapproved package values as live pricing.
-
-Primary action:
-Start practicing.
-
-Important information:
-Credit use visibility, account usage history, and package options explicitly marked as price-pending design placeholders.
-
-Navigation:
-Public pricing route with return to sign-in or practice entry.
-
-UX constraints:
-No invented price, package amount, gateway, or payment promise is shown.
-
-## Marketing / Pricing / Mobile
-
-Path:
-screens/shared/marketing/pricing-mobile.png
-
-Classification:
-MARKETING SCREEN
-
-Purpose:
-Provide a compact credits explanation for the mobile public route.
-
-Primary action:
-Start practicing.
-
-Important information:
-Pending package options and the promise that balance is visible before an interview begins.
-
-Navigation:
-Mobile public pricing route with sign-in access.
-
-UX constraints:
-The design does not imply approved pricing or payments on mobile.
-
-## Auth / Login / Desktop
-
-Path:
-screens/shared/auth/login-desktop.png
-
-Classification:
-TOP-LEVEL SCREEN
-
-Purpose:
-Let a returning candidate access their preparation space.
-
-Primary action:
-Sign in.
-
-Important information:
-Email and password controls, focused input, visible validation treatment, password recovery, and account creation route.
-
-Navigation:
-Entry from public navigation; successful authentication resolves to the appropriate role workspace.
-
-UX constraints:
-No social login is introduced. Inputs remain technical rectangles and validation is explicit rather than color-only.
-
-## Auth / Login / Mobile
-
-Path:
-screens/shared/auth/login-mobile.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Provide the responsive 390 px login composition.
-
-Primary action:
-Sign in.
-
-Important information:
-Focused email input, password validation, recovery, and registration route.
-
-Navigation:
-Mobile public entry to authentication, then role-aware workspace routing after success.
-
-UX constraints:
-The form remains single-column and complete without a desktop narrative rail.
-
-## Auth / Register / Desktop
-
-Path:
-screens/shared/auth/register-desktop.png
-
-Classification:
-TOP-LEVEL SCREEN
-
-Purpose:
-Create a candidate account before the job description journey starts.
-
-Primary action:
-Create account.
-
-Important information:
-Identity fields, email, password, and existing-account sign-in route.
-
-Navigation:
-Entry from public landing or login; continues to verification when required by the authentication process.
-
-UX constraints:
-No social provider or unsupported account choice is implied.
-
-## Auth / Register / Mobile
-
-Path:
-screens/shared/auth/register-mobile.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Provide a narrow responsive registration path.
-
-Primary action:
-Create account.
-
-Important information:
-Candidate name, email, password, and return to sign-in.
-
-Navigation:
-Mobile public entry to registration, then email verification if required.
-
-UX constraints:
-Fields are vertically ordered and retain direct labels and 44 px or greater action sizing.
-
-## Auth / Forgot Password
-
-Path:
-screens/shared/auth/forgot-password.png
-
-Classification:
-TOP-LEVEL SCREEN
-
-Purpose:
-Request a password reset link without distracting from the candidate’s practice task.
-
-Primary action:
-Send reset link.
-
-Important information:
-Email input, recovery explanation, and return to sign-in.
-
-Navigation:
-Entered from login; progresses to the reset-password route after the account email receives the link.
-
-UX constraints:
-The screen never reveals whether an account exists for a submitted address.
-
-## Auth / Reset Password
-
-Path:
-screens/shared/auth/reset-password.png
-
-Classification:
-TOP-LEVEL SCREEN
-
-Purpose:
-Let a verified recovery link set a new password.
-
-Primary action:
-Save new password.
-
-Important information:
-New password, confirmation input, and visible mismatch validation.
-
-Navigation:
-Entered from the password-reset link; returns to sign-in after successful completion.
-
-UX constraints:
-Validation states are explicit and the screen does not expose token or implementation details.
-
-## Auth / Verify Email
-
-Path:
-screens/shared/auth/verify-email.png
-
-Classification:
-PROCESS STATE
-
-Purpose:
-Explain the awaiting-verification state and provide a controlled resend action.
-
-Primary action:
-Resend verification link.
-
-Important information:
-Verification is pending, the account email is the target, and a resend is available.
-
-Navigation:
-Entered after registration; progresses to the confirmed state when verification succeeds.
-
-UX constraints:
-The process state is calm and does not make unsupported delivery guarantees.
-
-## Auth / Email Verified
-
-Path:
-screens/shared/auth/email-verified.png
-
-Classification:
-PROCESS STATE
-
-Purpose:
-Confirm that account verification is complete and route the candidate into their workspace.
-
-Primary action:
-Continue to dashboard.
-
-Important information:
-Clear successful verification status and the next safe route.
-
-Navigation:
-Entered from verification completion; exits to the Candidate Dashboard for candidate accounts.
-
-UX constraints:
-Success combines an icon, label, and copy rather than relying on lime alone.
-
-## Candidate Shell / Desktop 1440
-
-Path:
-screens/candidate/shell-desktop-1440.png
-
-Classification:
-TOP-LEVEL SCREEN
-
-Purpose:
-Establish the persistent desktop Candidate Workspace frame for later candidate routes.
-
-Primary action:
-Navigate to the current preparation task.
-
-Important information:
-Stable primary navigation, page-title location, credit context, and account route.
-
-Navigation:
-Applies across Candidate Dashboard, new-practice, history, billing, and profile routes.
-
-UX constraints:
-Candidate navigation is spacious and low-noise; credit context is present without fabricating a balance.
-
-## Candidate Shell / Laptop 1280
-
-Path:
-screens/candidate/shell-laptop-1280.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Show the compact laptop form of the Candidate Workspace frame.
-
-Primary action:
-Navigate using the same candidate route order.
-
-Important information:
-Collapsed navigation rail and unchanged page/title/credit hierarchy.
-
-Navigation:
-Responsive variation of the Candidate Shell desktop route group.
-
-UX constraints:
-The rail condenses without changing navigation order or hiding the active location.
-
-## Candidate / Dashboard
-
-Path:
-screens/candidate/dashboard.png
-
-Classification:
-TOP-LEVEL SCREEN
-
-Purpose:
-Orient a candidate around the next allowed preparation action.
-
-Primary action:
-Continue setup.
-
-Important information:
-Reviewed sample role context, skill summary, next setup step, and return routes to history, reports, repeat practice, billing, and profile.
-
-Navigation:
-Entered after candidate authentication or return from a candidate flow; continues to interview setup.
-
-UX constraints:
-The highlighted role data is sample context, not live candidate metrics or scores.
-
-## Dashboard / Empty New User
-
-Path:
-screens/candidate/dashboard-empty-new-user.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Give a new candidate a calm first action when no job description or session exists.
-
-Primary action:
-Add a job description.
-
-Important information:
-No saved role context, the starting requirement, and the human-review premise.
-
-Navigation:
-Entered on the Dashboard for a candidate with no role context; exits to job description entry.
-
-UX constraints:
-Absence is not framed as an error and the next action remains singular.
-
-## Dashboard / Returning User
-
-Path:
-screens/candidate/dashboard-returning-user.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Help a returning candidate resume the current preparation route or take a permitted return action.
-
-Primary action:
-Resume setup.
-
-Important information:
-Reviewed role, current position in the route, report reopening, and repeat-practice availability.
-
-Navigation:
-Entered from Candidate Dashboard when a reviewed role is available; exits to setup or eligible history/report routes.
-
-UX constraints:
-Secondary return actions never bypass reviewed-role, configuration, or preflight requirements.
-
-## JD / Empty State
-
-Path:
-screens/candidate/jd-empty-state.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Explain why a job description is required before an interview plan can exist.
-
-Primary action:
-Add a job description.
-
-Important information:
-No role context exists and nothing is generated before it does.
-
-Navigation:
-Entered from new-practice when no saved job description is selected; exits to job description entry.
-
-UX constraints:
-The state is supportive and does not imply a failed analysis or missing-data error.
-
-## JD / Add Job Description
-
-Path:
-screens/candidate/jd-add-job-description.png
-
-Classification:
-TOP-LEVEL SCREEN
-
-Purpose:
-Collect the source role text or document for analysis.
-
-Primary action:
-Analyze role.
-
-Important information:
-Labelled job-description text area, document upload option, and explicit pre-analysis expectations.
-
-Navigation:
-Entered from Dashboard or JD empty state; exits to the analysis process state.
-
-UX constraints:
-The candidate sees that the text is reviewed before it becomes interview input; no score is inferred.
-
-## JD / Analyzing
-
-Path:
-screens/candidate/jd-analyzing.png
-
-Classification:
-PROCESS STATE
-
-Purpose:
-Communicate that the submitted role is being extracted into reviewable context.
-
-Primary action:
-Wait for analysis to complete.
-
-Important information:
-Analysis is in progress, no fabricated percentage is shown, and no changes are saved yet.
-
-Navigation:
-Entered after job-description submission; exits to the analysis result.
-
-UX constraints:
-The process state remains quiet and does not imply completion before review.
-
-## JD / Analysis Result
-
-Path:
-screens/candidate/jd-analysis-result.png
-
-Classification:
-PROCESS STATE
-
-Purpose:
-Present extracted role context as a transition into human review.
-
-Primary action:
-Review extraction.
-
-Important information:
-Sample title, seniority, technical skills, and domain knowledge with a clear human-review requirement.
-
-Navigation:
-Entered after analysis; exits to Reviewed Job Description.
-
-UX constraints:
-The screen does not invent confidence, relevance, priority, or interview-focus metadata.
-
-## JD / Reviewed Job Description
-
-Path:
-screens/candidate/jd-review-and-edit-skills.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Let the candidate verify and edit extracted role data before it is saved for interview setup.
-
-Primary action:
-Save reviewed JD.
-
-Important information:
-Title, seniority, technical skills, skill category, required/preferred requirement, technologies, and domain knowledge.
-
-Navigation:
-Entered from analysis result; saving exits to Interview Setup / General.
-
-UX constraints:
-AI extraction is visibly non-final until review is saved. No unsupported competency metadata is present.
-
-## Interview Setup / General
-
-Path:
-screens/candidate/setup-general.png
-
-Classification:
-TOP-LEVEL SCREEN
-
-Purpose:
-Collect general interview configuration after the reviewed job description is saved.
-
-Primary action:
-Generate blueprint.
-
-Important information:
-Reviewed role reference, difficulty, duration choice, focus areas, and return to the reviewed JD.
-
-Navigation:
-Entered from saved JD review; proceeds to Blueprint Generation or returns to reviewed JD.
-
-UX constraints:
-Configuration follows review. Difficulty, duration, and focus remain product-scale choices without fabricated scoring or time claims.
-
-## Interview Setup / Interviewer
-
-Path:
-screens/candidate/setup-interviewer.png
-
-Classification:
-TOP-LEVEL SCREEN
-
-Purpose:
-Choose an interviewer approach as part of the configuration lifecycle.
-
-Primary action:
-Continue to blueprint.
-
-Important information:
-Curated interviewer selection, selected approach, and voice-selection relationship.
-
-Navigation:
-Entered from Interview Setup / General; can open Voice selection before continuing to Blueprint Generation.
-
-UX constraints:
-Interviewer choices are role-based practice approaches, not named real people or unsupported avatar promises.
-
-## Interview Setup / Voice
-
-Path:
-screens/candidate/setup-voice.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Allow voice choice within the chosen interviewer decision.
-
-Primary action:
-Continue to blueprint.
-
-Important information:
-Voice delivery choices, selected preview context, and the associated interviewer approach.
-
-Navigation:
-Opened from Interview Setup / Interviewer; returns to the same configuration path before blueprint generation.
-
-UX constraints:
-Voice choice is scoped to delivery style and does not imply an unsupported voice catalog or preview guarantee.
-
-## Interview Setup / Credits Gate
-
-Path:
-screens/candidate/setup-credits-gate.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Explain that a practice cannot begin without sufficient credits and route transparently to billing options.
-
-Primary action:
-View credit options.
-
-Important information:
-No credits available, the impact on starting practice, and a return to dashboard.
-
-Navigation:
-Appears during setup when credit availability blocks the next allowed transition; exits to billing or dashboard.
-
-UX constraints:
-No package price, balance amount, payment gateway, or blame-oriented copy is invented.
-
-## Blueprint / Generation
-
-Path:
-screens/candidate/blueprint-generation.png
-
-Classification:
-PROCESS STATE
-
-Purpose:
-Show the system structuring a practice plan from reviewed role, configuration, and interviewer choices.
-
-Primary action:
-Wait for generation to complete.
-
-Important information:
-Role-to-blueprint inputs and a clear no-percentage process state.
-
-Navigation:
-Entered after valid configuration; exits to Blueprint Preview & Confirmation.
-
-UX constraints:
-The process does not imply a countdown, a fabricated question count, or a live interview state.
-
-## Blueprint / Preview & Confirmation
-
-Path:
-screens/candidate/blueprint-preview-confirmation.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Let the candidate confirm the generated interview structure before preflight.
-
-Primary action:
-Confirm blueprint.
-
-Important information:
-Interview stages, technical domains, question focus, and return to configuration.
-
-Navigation:
-Entered after Blueprint Generation; confirmation exits to Preflight.
-
-UX constraints:
-This screen occurs after configuration and generation, never as part of JD review. It does not invent unsupported interview functions.
-
-## Preflight / Checking
-
-Path:
-screens/candidate/preflight-checking.png
-
-Classification:
-PROCESS STATE
-
-Purpose:
-Show required capability checks before a candidate enters practice.
-
-Primary action:
-Wait for checks to complete.
-
-Important information:
-Microphone, audio output, and browser support checks with no false percentage.
-
-Navigation:
-Entered after confirmed blueprint; exits to Preflight Ready, Permission Required, or Failed Check.
-
-UX constraints:
-The process remains calm and never resembles surveillance or proctoring.
-
-## Preflight / Ready
-
-Path:
-screens/candidate/preflight-ready.png
-
-Classification:
-TOP-LEVEL SCREEN
-
-Purpose:
-Confirm required capabilities before the candidate begins the live practice route.
-
-Primary action:
-Begin practice.
-
-Important information:
-Required clear checks, optional-status guidance, and confirmed reviewed role and blueprint.
-
-Navigation:
-Entered from Preflight Checking; the primary action leads to the Interview Runtime, which is intentionally not produced in Batch 1.
-
-UX constraints:
-The visual stops before the live Interview Runtime and does not depict it.
-
-## Preflight / Permission Required
-
-Path:
-screens/candidate/preflight-permission-required.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Guide a candidate through a user-triggered device permission request.
-
-Primary action:
-Request permission.
-
-Important information:
-Microphone permission requirement, browser Allow guidance, and return to the current check.
-
-Navigation:
-Entered from Preflight Checking when permission has not been granted; exits back to checking or ready state.
-
-UX constraints:
-Guidance is supportive and never contains proctoring or punitive language.
-
-## Preflight / Failed Check
-
-Path:
-screens/candidate/preflight-failed-check.png
-
-Classification:
-SUPPORTING UX STATE
-
-Purpose:
-Provide clear recovery choices when a required device check cannot complete.
-
-Primary action:
-Try check again.
-
-Important information:
-The affected microphone check, practical recovery paths, and alternate browser/device suggestion.
-
-Navigation:
-Entered from Preflight Checking; retry returns to checking after a candidate changes their device or browser condition.
-
-UX constraints:
-No engineering jargon, false session-preservation claim, or blame-oriented language is shown.
+The following former note concepts are intentionally retired and their preserved PNGs are documented as `HISTORICAL / STALE` in [`SCREEN-INVENTORY.md`](./SCREEN-INVENTORY.md): public pricing/credits; credit gate; separate setup-general/interviewer/voice screen contracts; Blueprint generation/preview/confirmation; standalone extraction/readiness-processing targets; and the former Candidate/Admin-only flow diagrams. Existing assets remain byte-preserved for provenance.

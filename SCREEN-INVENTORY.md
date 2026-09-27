@@ -1,171 +1,137 @@
-# RoleCue Screen & State Inventory
+# RoleCue Canonical Screen Inventory
 
-This document is the canonical manifest of all component families, screens, visual states, process transitions, and system edge cases for the RoleCue product suite.
+This is the repository manifest synchronized to the finalized navigation/screen contract at `/home/dorriss/Documents/SEP490/99_Inbox/2026-09-27-navigation-screen-contract-pruned.md`.
 
-## State Classification Taxonomy
+## Contract scope and status legend
 
-Every visual artifact in this inventory is categorized into one of six distinct functional types:
+- **Canonical screen count: 70** retained user-facing screens and subviews: **48 `DRAW`** and **22 `DOC-ONLY`**.
+- `DRAW` records are navigation-flow nodes. `DOC-ONLY` records are user-facing panels, modals, drawers, or confirmations excluded from the flow drawing for clarity.
+- Automated AI extraction, hidden Blueprint generation, payment callbacks, GLB-to-VRM processing, and runtime orchestration are `NON-SCREEN`; they have no visual deliverable.
+- A target PNG path is a future production handoff location. It is not a request to generate an image during this contract sync.
 
-1. **`TOP-LEVEL SCREEN`** — Primary navigable destination with an explicit route URL (e.g. `/dashboard`, `/reports/[id]`).
-2. **`SUPPORTING UX STATE`** — In-page state, modal dialog, tab panel, drawer, sub-view, or confirmation state within a screen.
-3. **`PROCESS STATE`** — Transient multi-step wizard step or asynchronous operation (e.g. JD analyzing, blueprint generation, preflight checking, evaluation processing, payment processing).
-4. **`SYSTEM STATE`** — Route boundary, network recovery, empty state, or system exception.
-5. **`MARKETING SCREEN`** — Public acquisition surface (`/`, `/pricing`).
-6. **`FUTURE / UNRATIFIED`** — Planned capability where backend contract or feature scope is pending ratification.
+| Design status | Meaning |
+|---|---|
+| `EXISTING / NEEDS CONTENT SYNC` | A preserved PNG is conceptually compatible but may carry stale product copy or scope. It remains untouched in this phase. |
+| `TO DESIGN` | Retained canonical target with no current approved PNG. The path is reserved for the later screen-design production phase. |
+| `HISTORICAL / STALE` | Preserved artifact contradicted by scope or no longer a canonical standalone deliverable. It is not counted above. |
 
----
+## Canonical retained screen manifest
 
-## Canonical Image Naming Convention
+| ID | Classification | Section / canonical frame | Role | Route or product mapping | Concise purpose | Target PNG path | Status |
+|---|---|---|---|---|---|---|---|
+| `PUB-01` | `DRAW` | Public / Public Landing Page | Guest | `/` | Introduce RoleCue and provide permitted account entry. | `screens/shared/marketing/landing-desktop-1440.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `AUTH-01` | `DRAW` | Authentication / Account Registration | Guest | `/register` | Register a Candidate or Recruiter account. | `screens/shared/auth/register-desktop.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `AUTH-01-SUB1` | `DOC-ONLY` | Authentication / Email Verification Notice | Guest | Registration journey | Confirm verification dispatch and support resend. | `screens/shared/auth/verify-email.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `AUTH-02` | `DRAW` | Authentication / Account Login | Registered user | `/login` | Authenticate and resolve the user to the appropriate workspace. | `screens/shared/auth/login-desktop.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `AUTH-03` | `DRAW` | Authentication / Forgot Password Request | Registered user | `/forgot-password` | Initiate the single password-recovery journey. | `screens/shared/auth/forgot-password.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `AUTH-03-SUB1` | `DOC-ONLY` | Authentication / Password Reset Link Dispatched Notice | Registered user | Forgot Password journey | Confirm recovery-link dispatch without exposing account existence. | `screens/shared/auth/forgot-password-dispatched.png` | `TO DESIGN` |
+| `AUTH-04` | `DRAW` | Authentication / Set New Password | Registered user | `/reset-password` | Set a replacement password through the recovery journey. | `screens/shared/auth/reset-password.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `SHARED-01` | `DRAW` | Account / User Profile | Registered user | `/profile` | View and update personal profile and role metadata. | `screens/shared/account/user-profile.png` | `TO DESIGN` |
+| `SHARED-02` | `DRAW` | Account / Account Security & Password | Registered user | `/settings` | Manage security settings, password, and eligible 2FA. | `screens/shared/account/account-security.png` | `TO DESIGN` |
+| `SHARED-02-SUB1` | `DOC-ONLY` | Account / Change Password Modal | Registered user | Within account security | Replace a known password. | `screens/shared/account/change-password-modal.png` | `TO DESIGN` |
+| `SHARED-02-SUB2` | `DOC-ONLY` | Account / Two-Factor Authentication Setup Modal | Registered user | Within account security | Set up 2FA where enabled by the canonical contract. | `screens/shared/account/two-factor-setup-modal.png` | `TO DESIGN` |
+| `CAN-01` | `DRAW` | Candidate Workspace / Candidate Dashboard | Candidate | `/dashboard` | Launch practice, review recent work, and surface application status. | `screens/candidate/dashboard.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-02` | `DRAW` | Target JD / Target JD Library | Candidate | Candidate Target JD workspace | Manage private, reviewed Target JDs for practice. | `screens/candidate/jd-empty-state.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-03` | `DRAW` | Target JD / Add Target JD | Candidate | `/interviews/new/job-description` | Paste raw JD text or upload a PDF for extraction. | `screens/candidate/jd-add-job-description.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-04` | `DRAW` | Target JD / Review & Refine Extracted JD | Candidate | `/interviews/new/skills` | Review extracted technical information, refine it, and confirm it. | `screens/candidate/jd-review-and-edit-skills.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-04-SUB1` | `DOC-ONLY` | Target JD / Refinement Notes Panel | Candidate | Within extracted-JD review | Add natural-language instructions that influence hidden preparation. | `screens/candidate/jd-refinement-notes-panel.png` | `TO DESIGN` |
+| `CAN-05` | `DRAW` | Personal 3D Avatar / Personal 3D Avatar Studio | Candidate | Candidate avatar workspace | Launch creation and manage Candidate-owned persisted avatars. | `screens/candidate/personal-avatar-studio.png` | `TO DESIGN` |
+| `CAN-05-SUB1` | `DRAW` | Personal 3D Avatar / Avaturn Embedded Experience | Candidate | Within avatar studio | Host the free Avaturn experience for its owned creation steps. | `screens/candidate/avaturn-embedded-experience.png` | `TO DESIGN` |
+| `CAN-05-SUB2` | `DOC-ONLY` | Personal 3D Avatar / Personal Avatar Confirmation & Preview | Candidate | Post-Avaturn handoff | Confirm a successfully converted, Candidate-owned VRM avatar. | `screens/candidate/personal-avatar-confirmation.png` | `TO DESIGN` |
+| `CAN-06` | `DRAW` | Interview Configuration / Configure Interview Session | Candidate | Candidate interview setup | Configure available interviewer, Voice Profile, environment, difficulty, and duration/question budget in one composite experience. | `screens/candidate/configure-interview-session.png` | `TO DESIGN` |
+| `CAN-07` | `DRAW` | Interview Simulation / Test Audio & Interview Readiness | Candidate | `/interviews/new/preflight` | Verify microphone, audio, and rendering readiness before the runtime. | `screens/candidate/preflight-ready.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-07-SUB1` | `DOC-ONLY` | Interview Simulation / Readiness Device Error Dialog | Candidate | Within readiness | Give recovery guidance for microphone, permission, or device failure. | `screens/candidate/preflight-permission-required.png` | `EXISTING / NEEDS CONTENT SYNC` |
+| `CAN-08` | `DRAW` | Interview Runtime / Live 3D Interview Room | Candidate | `/interviews/[id]/room` | Conduct the real-time spoken interview using the generic Question loop. | `screens/candidate/live-3d-interview-room.png` | `TO DESIGN` |
+| `CAN-08-SUB1` | `DRAW` | Interview Runtime / Interview Session Pause / Exit Modal | Candidate | Within live room | Pause, resume, or explicitly end an active session. | `screens/candidate/interview-pause-exit-modal.png` | `TO DESIGN` |
+| `CAN-08-SUB2` | `DOC-ONLY` | Interview Runtime / 2D Waveform Fallback View | Candidate | Within live room | Continue spoken interaction when 3D/WebGL is unavailable. | `screens/candidate/interview-2d-waveform-fallback.png` | `TO DESIGN` |
+| `CAN-09` | `DRAW` | Evaluation / Interview Performance Report | Candidate | `/reports/[id]` | Review stored scores, feedback, and learning roadmap. | `screens/candidate/interview-performance-report.png` | `TO DESIGN` |
+| `CAN-09-SUB1` | `DOC-ONLY` | Evaluation / Turn Critiques & Model Answers | Candidate | Within performance report | Inspect turn-level critique and benchmark guidance. | `screens/candidate/turn-critiques-model-answers.png` | `TO DESIGN` |
+| `CAN-09-SUB2` | `DOC-ONLY` | Evaluation / Actionable Learning Roadmap | Candidate | Within performance report | Review prioritized learning recommendations and practice actions. | `screens/candidate/actionable-learning-roadmap.png` | `TO DESIGN` |
+| `CAN-09-SUB3` | `DRAW` | Evaluation / Export Report Dialog | Candidate | Within performance report | Select an export and download a stored report. | `screens/candidate/export-report-dialog.png` | `TO DESIGN` |
+| `CAN-10` | `DRAW` | History / Interview History | Candidate | `/history` | Browse previous interview sessions and reopen reports. | `screens/candidate/interview-history.png` | `TO DESIGN` |
+| `CAN-11` | `DRAW` | Job Board / Job Board (Browse Postings) | Candidate | Candidate job board | Search and filter approved Recruiter Job Postings. | `screens/candidate/job-board.png` | `TO DESIGN` |
+| `CAN-12` | `DRAW` | Job Board / Job Posting Detail | Candidate | Selected approved Job Posting | Inspect requirements, company-defined interviewer/voice, and application entry. | `screens/candidate/job-posting-detail.png` | `TO DESIGN` |
+| `CAN-13` | `DRAW` | Applications / Job Application & CV Upload | Candidate | Approved Job Posting application | Provide application information and CV before the required locked interview. | `screens/candidate/job-application-cv-upload.png` | `TO DESIGN` |
+| `CAN-13-SUB1` | `DOC-ONLY` | Applications / Application Submitted Confirmation | Candidate | After completed application | Confirm CV and Interview Result submission to the Recruiter. | `screens/candidate/application-submitted-confirmation.png` | `TO DESIGN` |
+| `CAN-14` | `DRAW` | Applications / My Applications Tracking | Candidate | Candidate applications | Track pending, approved, or rejected submitted applications. | `screens/candidate/my-applications-tracking.png` | `TO DESIGN` |
+| `CAN-14-SUB1` | `DOC-ONLY` | Applications / Application Dossier & Result Viewer | Candidate | Within application tracking | View own submitted details and the attached Interview Result. | `screens/candidate/application-dossier-result-viewer.png` | `TO DESIGN` |
+| `CAN-15` | `DRAW` | Membership / Membership & Billing | Candidate | `/billing` | View membership status, renewal, and available subscription options. | `screens/candidate/membership-billing.png` | `TO DESIGN` |
+| `CAN-15-SUB1` | `DOC-ONLY` | Membership / Payment Gateway Checkout Redirect | Candidate | Membership checkout | Hand off checkout to the external payment gateway. | `screens/candidate/payment-gateway-checkout-redirect.png` | `TO DESIGN` |
+| `CAN-15-SUB2` | `DRAW` | Membership / Unsubscribe Confirmation Dialog | Candidate | Within membership | Confirm cancellation of recurring membership renewal. | `screens/candidate/unsubscribe-confirmation-dialog.png` | `TO DESIGN` |
+| `CAN-15-SUB3` | `DOC-ONLY` | Membership / Payment Transaction History | Candidate | Within membership | View own membership-payment transaction history. | `screens/candidate/payment-transaction-history.png` | `TO DESIGN` |
+| `REC-01` | `DRAW` | Recruiter Workspace / Recruiter Dashboard | Recruiter | Recruiter workspace | View own posting/application summary and primary actions. | `screens/recruiter/recruiter-dashboard.png` | `TO DESIGN` |
+| `REC-02` | `DRAW` | Job Posting Management / My Job Postings Management | Recruiter | Recruiter Job Postings | Search and manage own postings across their allowed statuses. | `screens/recruiter/my-job-postings-management.png` | `TO DESIGN` |
+| `REC-02-SUB1` | `DOC-ONLY` | Job Posting Management / Archive Job Posting Dialog | Recruiter | Within own postings | Confirm archival of an inactive or filled own posting. | `screens/recruiter/archive-job-posting-dialog.png` | `TO DESIGN` |
+| `REC-03` | `DRAW` | Job Posting Management / Create Job Posting | Recruiter | Recruiter Job Postings | Draft a Job Posting from JD-like content and prepare it for approval. | `screens/recruiter/create-job-posting.png` | `TO DESIGN` |
+| `REC-03-SUB1` | `DOC-ONLY` | Job Posting Management / AI Extraction Review & Confirmation | Recruiter | Within create posting | Review and confirm extracted technical information before submission. | `screens/recruiter/job-posting-ai-extraction-review.png` | `TO DESIGN` |
+| `REC-03-SUB2` | `DOC-ONLY` | Job Posting Management / Configure Company 3D Interviewer & Voice | Recruiter | Within create posting | Select the company interviewer model and Voice Profile required for applicants. | `screens/recruiter/configure-company-interviewer-voice.png` | `TO DESIGN` |
+| `REC-04` | `DRAW` | Job Posting Management / Edit Job Posting | Recruiter | Own Job Posting | Update an own Job Posting's requirements or metadata. | `screens/recruiter/edit-job-posting.png` | `TO DESIGN` |
+| `REC-05` | `DRAW` | Application Review / Received Applications List | Recruiter | Recruiter applications | Search and filter completed applications to own postings. | `screens/recruiter/received-applications-list.png` | `TO DESIGN` |
+| `REC-06` | `DRAW` | Application Review / Application Detail & Review | Recruiter | Selected own-posting application | Inspect candidate information, CV, and attached Interview Result. | `screens/recruiter/application-detail-review.png` | `TO DESIGN` |
+| `REC-06-SUB1` | `DRAW` | Application Review / Attached Interview Result Viewer | Recruiter | Within application detail | Inspect attached Performance Report and session transcript. | `screens/recruiter/attached-interview-result-viewer.png` | `TO DESIGN` |
+| `REC-06-SUB2` | `DOC-ONLY` | Application Review / Application Adjudication Dialog | Recruiter | Within application detail | Record the final binary Approve or Reject decision. | `screens/recruiter/application-adjudication-dialog.png` | `TO DESIGN` |
+| `ADM-01` | `DRAW` | Administration / Admin Governance Console | Administrator | `/admin` | Enter platform governance across permitted operations. | `screens/admin/admin-governance-console.png` | `TO DESIGN` |
+| `ADM-02` | `DRAW` | Account Governance / Account Governance (User List) | Administrator | `/admin/users` | Search and inspect Candidate and Recruiter accounts. | `screens/admin/account-governance-user-list.png` | `TO DESIGN` |
+| `ADM-03` | `DRAW` | Account Governance / Account Detail & Lock/Unlock | Administrator | Selected account | Inspect an account and lock or unlock it. | `screens/admin/account-detail-lock-unlock.png` | `TO DESIGN` |
+| `ADM-04` | `DRAW` | Content Moderation / Job Posting Moderation Queue | Administrator | Admin Job Posting moderation | Review Recruiter postings awaiting publication moderation. | `screens/admin/job-posting-moderation-queue.png` | `TO DESIGN` |
+| `ADM-05` | `DRAW` | Content Moderation / Job Posting Review & Approval | Administrator | Selected pending Job Posting | Inspect and approve or reject a submitted Job Posting. | `screens/admin/job-posting-review-approval.png` | `TO DESIGN` |
+| `ADM-05-SUB1` | `DOC-ONLY` | Content Moderation / Moderation Decision Dialog | Administrator | Within Job Posting review | Record approval or rejection with the required reason note. | `screens/admin/moderation-decision-dialog.png` | `TO DESIGN` |
+| `ADM-06` | `DRAW` | Session Oversight / Interview Sessions Oversight | Administrator | `/admin/interviews` | Search, filter, and monitor platform interview sessions. | `screens/admin/interview-sessions-oversight.png` | `TO DESIGN` |
+| `ADM-07` | `DRAW` | Session Oversight / Interview Session Detail | Administrator | Selected interview session | Inspect operational session metadata and error flags. | `screens/admin/interview-session-detail.png` | `TO DESIGN` |
+| `ADM-08` | `DRAW` | Configuration / Interview Feature Configuration | Administrator | Admin interview configuration | Configure permitted platform-wide interview parameters and toggles. | `screens/admin/interview-feature-configuration.png` | `TO DESIGN` |
+| `ADM-09` | `DRAW` | AI Calibration / AI Behaviour Management | Administrator | Admin AI configuration | Manage system prompt templates and generic Question guidance. | `screens/admin/ai-behaviour-management.png` | `TO DESIGN` |
+| `ADM-09-SUB1` | `DOC-ONLY` | AI Calibration / Prompt Template Editor Drawer | Administrator | Within AI behaviour management | Edit a conversational system prompt template. | `screens/admin/prompt-template-editor-drawer.png` | `TO DESIGN` |
+| `ADM-10` | `DRAW` | AI Calibration / Evaluation Criteria Calibration | Administrator | Admin evaluation configuration | Calibrate evaluation criteria, rubric templates, and weights. | `screens/admin/evaluation-criteria-calibration.png` | `TO DESIGN` |
+| `ADM-10-SUB1` | `DOC-ONLY` | AI Calibration / Rubric Template Editor Drawer | Administrator | Within evaluation calibration | Edit a technical rubric template and scoring weights. | `screens/admin/rubric-template-editor-drawer.png` | `TO DESIGN` |
+| `ADM-11` | `DRAW` | Voice Management / Voice Profile Catalog | Administrator | `/admin/voices` | Curate supported provider-sourced TTS Voice Profiles. | `screens/admin/voice-profile-catalog.png` | `TO DESIGN` |
+| `ADM-11-SUB1` | `DOC-ONLY` | Voice Management / Delete Voice Profile Dialog | Administrator | Within Voice Profile Catalog | Confirm deactivation or deletion of an obsolete profile. | `screens/admin/delete-voice-profile-dialog.png` | `TO DESIGN` |
+| `ADM-12` | `DRAW` | Voice Management / Fetch Voice Profiles Modal | Administrator | Within Voice Profile Catalog | Fetch supported profiles from TTS providers for curation. | `screens/admin/fetch-voice-profiles-modal.png` | `TO DESIGN` |
+| `ADM-13` | `DRAW` | Financial Governance / Payment Transactions Ledger | Administrator | `/admin/billing` | Inspect recorded Candidate membership payment transactions. | `screens/admin/payment-transactions-ledger.png` | `TO DESIGN` |
+| `ADM-14` | `DRAW` | Financial Governance / Revenue Report Generator | Administrator | Admin financial governance | Generate aggregate membership-revenue reports. | `screens/admin/revenue-report-generator.png` | `TO DESIGN` |
+| `ADM-15` | `DRAW` | Financial Governance / Update Membership Price Modal | Administrator | Admin financial governance | Update the active Candidate membership price. | `screens/admin/update-membership-price-modal.png` | `TO DESIGN` |
 
-Visual deliverables are high-fidelity PNG files stored in `screens/` and `flows/`.
+## Preserved visual artifacts that remain semantically compatible
 
-Image paths follow this deterministic naming convention:
-```text
-screens/<surface>/<module>-<state-or-view>.png
-```
+The 19 paths below support retained current screens. The two candidate-shell references remain useful visual scaffolding but are not an extra canonical screen. None are modified by this pass.
 
-- **Surfaces:** `shared/`, `candidate/`, `admin/`, `system/`
-- **Rules:** Lowercase alphanumeric characters and hyphens only.
-- **Prohibited:** Never use non-deterministic names such as `final.png`, `screenshot.png`, `design-2.png`, or `frame123.png`.
-- **No Slashes in Filenames:** Target image filenames must never contain subdirectories or slashes within the filename portion (e.g., `admin-avatar-detail-edit.png`, not `admin-avatar-detail/edit.png`).
-
----
-
-## Deliverable Counts
-
-- **Component Families:** 20
-- **Marketing Screens:** 4
-- **Product Screens / States:** 83
-- **Total Planned Screen Deliverables:** 87
-
-### Breakdown by Taxonomy Classification
-
-| Classification | Count | Description |
+| Current contract mapping | Preserved compatible artifact(s) | Treatment |
 |---|---|---|
-| **`MARKETING SCREEN`** | 4 | Public acquisition and pricing pages (Desktop & Mobile) |
-| **`TOP-LEVEL SCREEN`** | 31 | Primary navigable destinations with dedicated route URLs |
-| **`SUPPORTING UX STATE`** | 26 | Modals, drawers, sub-views, and confirmation states |
-| **`PROCESS STATE`** | 15 | Asynchronous transitions, wizard steps, and background operations |
-| **`SYSTEM STATE`** | 11 | Error boundaries, network issues, and reusable empty states |
-| **Total** | **87** | **Authoritative deliverable target manifest** |
+| `PUB-01` | `screens/shared/marketing/landing-desktop-1440.png`, `screens/shared/marketing/landing-mobile-390.png` | Existing target/viewport variant; content sync later. |
+| `AUTH-01` | `screens/shared/auth/register-desktop.png`, `screens/shared/auth/register-mobile.png` | Existing target/viewport variant; content sync later. |
+| `AUTH-01-SUB1` | `screens/shared/auth/verify-email.png`, `screens/shared/auth/email-verified.png` | Existing verification-journey states; content sync later. |
+| `AUTH-02` | `screens/shared/auth/login-desktop.png`, `screens/shared/auth/login-mobile.png` | Existing target/viewport variant; content sync later. |
+| `AUTH-03` | `screens/shared/auth/forgot-password.png` | Existing target; content sync later. |
+| `AUTH-04` | `screens/shared/auth/reset-password.png` | Existing target; content sync later. |
+| `CAN-01` | `screens/candidate/dashboard.png`, `screens/candidate/dashboard-empty-new-user.png`, `screens/candidate/dashboard-returning-user.png` | Existing dashboard and compatible state variants; content sync later. |
+| `CAN-02` | `screens/candidate/jd-empty-state.png` | Existing compatible library-empty state; content sync later. |
+| `CAN-03` | `screens/candidate/jd-add-job-description.png` | Existing target; content sync later. |
+| `CAN-04` | `screens/candidate/jd-review-and-edit-skills.png` | Existing target; content sync later to include refinement-note semantics. |
+| `CAN-07` | `screens/candidate/preflight-ready.png` | Existing target; content sync later. |
+| `CAN-07-SUB1` | `screens/candidate/preflight-permission-required.png`, `screens/candidate/preflight-failed-check.png` | Existing compatible error variants; content sync later. |
+| Workspace visual scaffolding, not an additional screen ID | `screens/candidate/shell-desktop-1440.png`, `screens/candidate/shell-laptop-1280.png` | Retained visual references for the Candidate workspace shell. |
 
----
+## Historical / stale artifacts kept for provenance
 
-### Component Family Inventory
+These 14 preserved artifacts are not current design targets and are excluded from the 70-screen count.
 
-| Component family | Required useful states or variants |
-| --- | --- |
-| Brand lockup | Full, icon only, monochrome light, monochrome dark |
-| Button | Primary, Secondary, Ghost, Danger; default, hover, disabled, loading where needed |
-| Icon button | Default, hover, selected, disabled; tooltip association |
-| Input and password input | Default, focus, filled, error, disabled |
-| Textarea, Search, Select, Combobox | Default, focus, populated, error/empty as applicable |
-| Checkbox, Radio, Switch | Unselected, selected, disabled; focus ring |
-| Form field | Label, control, help, error association |
-| Tabs, Segmented control, Stepper | Default, selected/current, disabled |
-| Badge, Interview status, Credit indicator | Neutral, positive, warning, error/contextual |
-| Tooltip, Popover, Dropdown, Context menu | Open and keyboard-focus examples |
-| Dialog, Confirmation dialog, Drawer/sheet | Desktop and compact-width behavior |
-| Toast/notification | Neutral, success, warning, error |
-| Candidate sidebar/top bar/admin navigation | Desktop and collapsed/laptop behavior |
-| Breadcrumb | Default and current-page state |
-| Card/surface and Editorial feature surface | Quiet default, elevated media use |
-| Table, row, pagination, filters | Default, selected, empty, pagination |
-| Empty state, skeleton, loading, inline error | Reusable candidate/admin application states |
-| Progress indicator | Setup step progress and interview context progress |
-| Avatar/interviewer thumbnail | Available, selected, unavailable/degraded context |
-| Chart primitives | Competency comparison, time trend, improvement plan action list |
+| Preserved artifact | Why it is historical / stale |
+|---|---|
+| `screens/shared/marketing/pricing-desktop.png` | Public pricing and credit-package scope are removed. |
+| `screens/shared/marketing/pricing-mobile.png` | Public pricing and credit-package scope are removed. |
+| `screens/candidate/jd-analyzing.png` | AI extraction processing is not a retained standalone screen. |
+| `screens/candidate/jd-analysis-result.png` | Replaced by the retained Candidate review/refinement contract; not a standalone screen. |
+| `screens/candidate/setup-general.png` | Former fragmented setup; superseded by composite `CAN-06` Configure Interview Session. |
+| `screens/candidate/setup-interviewer.png` | Former fragmented setup; superseded by composite `CAN-06` Configure Interview Session. |
+| `screens/candidate/setup-voice.png` | Former fragmented setup; superseded by composite `CAN-06` Configure Interview Session. |
+| `screens/candidate/setup-credits-gate.png` | Credit-gate model is removed. |
+| `screens/candidate/blueprint-generation.png` | Blueprint generation is internal/non-screen. |
+| `screens/candidate/blueprint-preview-confirmation.png` | Candidates never view, edit, or confirm a Blueprint. |
+| `screens/candidate/preflight-checking.png` | Readiness processing is not a retained standalone screen. |
+| `flows/00-system-overview.png` | Shows former Candidate/Admin-only topology and stale credits/admin domains. |
+| `flows/01-candidate-flow.png` | Shows exposed Blueprint generation/preview. |
+| `flows/02-admin-flow.png` | Shows obsolete avatar-related administration and lacks current moderation/recruiter topology. |
 
----
+## Explicit non-screen and removed boundaries
 
-## Screen & State Inventory Manifest
-
-| Classification | Section | Frame Name | Route / Product Mapping | Major State / Description | Target PNG Image |
-|---|---|---|---|---|---|
-| `MARKETING SCREEN` | Marketing / Public | Marketing / Landing / Desktop / 1440 | `/` | Primary public narrative, hero media, credits, CTA, footer | `screens/shared/marketing/landing-desktop-1440.png` |
-| `MARKETING SCREEN` | Marketing / Public | Marketing / Landing / Mobile / 390 | `/` | Intentional mobile public layout | `screens/shared/marketing/landing-mobile-390.png` |
-| `MARKETING SCREEN` | Marketing / Public | Marketing / Pricing / Desktop | `/pricing` | Credit purchase explanation; package values intentionally unapproved/placeholders | `screens/shared/marketing/pricing-desktop.png` |
-| `MARKETING SCREEN` | Marketing / Public | Marketing / Pricing / Mobile | `/pricing` | Compact public credits view | `screens/shared/marketing/pricing-mobile.png` |
-| `TOP-LEVEL SCREEN` | Product / A Authentication | Auth / Login / Desktop | `/login` | Default, focus, validation error, loading, disabled | `screens/shared/auth/login-desktop.png` |
-| `SUPPORTING UX STATE` | Product / A Authentication | Auth / Login / Mobile | `/login` | 390 px public/auth composition | `screens/shared/auth/login-mobile.png` |
-| `TOP-LEVEL SCREEN` | Product / A Authentication | Auth / Register / Desktop | `/register` | Default, focus, validation error, loading, disabled | `screens/shared/auth/register-desktop.png` |
-| `SUPPORTING UX STATE` | Product / A Authentication | Auth / Register / Mobile | `/register` | 390 px public/auth composition | `screens/shared/auth/register-mobile.png` |
-| `TOP-LEVEL SCREEN` | Product / A Authentication | Auth / Forgot Password | `/forgot-password` | Default, submitted/confirmation, error | `screens/shared/auth/forgot-password.png` |
-| `TOP-LEVEL SCREEN` | Product / A Authentication | Auth / Reset Password | `/reset-password` | Default, password validation error, submitting | `screens/shared/auth/reset-password.png` |
-| `PROCESS STATE` | Product / A Authentication | Auth / Verify Email | Auth verification route/transition | Awaiting verification, resend available | `screens/shared/auth/verify-email.png` |
-| `PROCESS STATE` | Product / A Authentication | Auth / Email Verified | Auth verification route/transition | Confirmed, continue to dashboard | `screens/shared/auth/email-verified.png` |
-| `TOP-LEVEL SCREEN` | Product / B Candidate shell | Candidate Shell / Desktop 1440 | Candidate route group layout | Expanded navigation, title, credits, account | `screens/candidate/shell-desktop-1440.png` |
-| `SUPPORTING UX STATE` | Product / B Candidate shell | Candidate Shell / Laptop 1280 | Candidate route group layout | Condensed navigation and content rail | `screens/candidate/shell-laptop-1280.png` |
-| `TOP-LEVEL SCREEN` | Product / C Dashboard | Candidate / Dashboard | `/dashboard` | Next action, role context, resume/recommendation, credit state | `screens/candidate/dashboard.png` |
-| `SUPPORTING UX STATE` | Product / C Dashboard | Dashboard / Empty New User | `/dashboard` | No JD or session; calm first action | `screens/candidate/dashboard-empty-new-user.png` |
-| `SUPPORTING UX STATE` | Product / C Dashboard | Dashboard / Returning User | `/dashboard` | Resume/repeat action and recent report recommendation | `screens/candidate/dashboard-returning-user.png` |
-| `SUPPORTING UX STATE` | Product / D Job descriptions | JD / Empty State | `/interviews/new/job-description` | No saved description | `screens/candidate/jd-empty-state.png` |
-| `TOP-LEVEL SCREEN` | Product / D Job descriptions | JD / Add Job Description | `/interviews/new/job-description` | Paste or upload document; labelled control and validation | `screens/candidate/jd-add-job-description.png` |
-| `PROCESS STATE` | Product / D Job descriptions | JD / Analyzing | Analysis transition | Calm status, no fabricated percentage | `screens/candidate/jd-analyzing.png` |
-| `PROCESS STATE` | Product / D Job descriptions | JD / Analysis Result | Analysis transition | Role context and extracted technical skills transition before human review | `screens/candidate/jd-analysis-result.png` |
-| `SUPPORTING UX STATE` | Product / D Job descriptions | JD / Reviewed Job Description | `/interviews/new/skills` | Title, seniority, technical skills, skill category, requirement (required/preferred), technologies, domain knowledge | `screens/candidate/jd-review-and-edit-skills.png` |
-| `TOP-LEVEL SCREEN` | Product / E Interview setup | Interview Setup / General | `/interviews/new/setup` | Difficulty, duration, focus areas, sensible defaults | `screens/candidate/setup-general.png` |
-| `TOP-LEVEL SCREEN` | Product / E Interview setup | Interview Setup / Interviewer | `/interviews/new/interviewer` | Curated interviewer selection | `screens/candidate/setup-interviewer.png` |
-| `SUPPORTING UX STATE` | Product / E Interview setup | Interview Setup / Voice | `/interviews/new/interviewer` | Voice choice as part of interviewer decision | `screens/candidate/setup-voice.png` |
-| `SUPPORTING UX STATE` | Product / E Interview setup | Interview Setup / Credits Gate | Setup transition | Insufficient credits; transparent purchase route | `screens/candidate/setup-credits-gate.png` |
-| `PROCESS STATE` | Product / E Blueprint | Blueprint / Generation | Blueprint transition | Asynchronous generation synthesizing role requirements and configuration into structured interview stages | `screens/candidate/blueprint-generation.png` |
-| `SUPPORTING UX STATE` | Product / E Blueprint | Blueprint / Preview & Confirmation | `/interviews/new/blueprint` | Blueprint preview and confirmation showing interview stages, technical domains, question focus, and confirmation action before preflight | `screens/candidate/blueprint-preview-confirmation.png` |
-| `PROCESS STATE` | Product / F Preflight | Preflight / Checking | `/interviews/new/preflight` | Capability checks in progress | `screens/candidate/preflight-checking.png` |
-| `TOP-LEVEL SCREEN` | Product / F Preflight | Preflight / Ready | `/interviews/new/preflight` | Required checks clear; optional status explained | `screens/candidate/preflight-ready.png` |
-| `SUPPORTING UX STATE` | Product / F Preflight | Preflight / Permission Required | `/interviews/new/preflight` | User-triggered device permission guidance | `screens/candidate/preflight-permission-required.png` |
-| `SUPPORTING UX STATE` | Product / F Preflight | Preflight / Failed Check | `/interviews/new/preflight` | Explain retry, browser/device alternatives, no proctoring tone | `screens/candidate/preflight-failed-check.png` |
-| `PROCESS STATE` | Product / G Interview room | Interview / Connecting | `/interviews/[interviewId]/room` | Establishing session | `screens/candidate/interview-connecting.png` |
-| `PROCESS STATE` | Product / G Interview room | Interview / Asset Loading | `/interviews/[interviewId]/room` | Preparing interviewer stage | `screens/candidate/interview-asset-loading.png` |
-| `TOP-LEVEL SCREEN` | Product / G Interview room | Interview / Interviewer Speaking | `/interviews/[interviewId]/room` | Avatar stage, question context, listening controls inactive | `screens/candidate/interview-interviewer-speaking.png` |
-| `TOP-LEVEL SCREEN` | Product / G Interview room | Interview / Listening | `/interviews/[interviewId]/room` | Candidate speaking/listening state and clear stop control | `screens/candidate/interview-listening.png` |
-| `PROCESS STATE` | Product / G Interview room | Interview / Processing Answer | `/interviews/[interviewId]/room` | Brief response processing state | `screens/candidate/interview-processing-answer.png` |
-| `PROCESS STATE` | Product / G Interview room | Interview / Transitioning | `/interviews/[interviewId]/room` | Quiet question transition | `screens/candidate/interview-transitioning.png` |
-| `SUPPORTING UX STATE` | Product / G Interview room | Interview / Paused | `/interviews/[interviewId]/room` | Resume and end-session confirmation path | `screens/candidate/interview-paused.png` |
-| `TOP-LEVEL SCREEN` | Product / G Interview room | Interview / Reconnecting | `/interviews/[interviewId]/room` | Session-safe language only where confirmed by contract | `screens/candidate/interview-reconnecting.png` |
-| `SUPPORTING UX STATE` | Product / G Interview room | Interview / Degraded 2D | `/interviews/[interviewId]/room` | Explicit 2D interviewer fallback acknowledgement | `screens/candidate/interview-degraded-2d.png` |
-| `PROCESS STATE` | Product / G Interview room | Interview / Completed | `/interviews/[interviewId]/room` | Proceed to evaluation | `screens/candidate/interview-completed.png` |
-| `SUPPORTING UX STATE` | Product / G Interview room | Interview / Terminated Early | `/interviews/[interviewId]/room` | Clear consequence and next step | `screens/candidate/interview-terminated-early.png` |
-| `TOP-LEVEL SCREEN` | Product / G Interview room | Interview / Fatal Error | `/interviews/[interviewId]/room` | Plain recovery guidance, no engineering jargon | `screens/candidate/interview-fatal-error.png` |
-| `PROCESS STATE` | Product / H Evaluation | Evaluation / Processing | Post-interview transition | Meaningful status, no fake percentage | `screens/candidate/evaluation-processing.png` |
-| `TOP-LEVEL SCREEN` | Product / I Reports | Report / Overview | `/reports/[reportId]` | Strengths → gaps → next action hierarchy | `screens/candidate/report-overview.png` |
-| `SUPPORTING UX STATE` | Product / I Reports | Report / Competency Detail | `/reports/[reportId]` detail state | Technical and reasoning dimensions with restrained charting | `screens/candidate/report-competency-detail.png` |
-| `SUPPORTING UX STATE` | Product / I Reports | Report / Improvement Plan | `/reports/[reportId]` action state | Concrete practice plan and repeat action | `screens/candidate/report-improvement-plan.png` |
-| `TOP-LEVEL SCREEN` | Product / J History | History / Interview List | `/history`, `/interviews` | Practical filters and report links | `screens/candidate/history-interview-list.png` |
-| `SUPPORTING UX STATE` | Product / J History | History / Empty | `/history` | First-practice path | `screens/candidate/history-empty.png` |
-| `SUPPORTING UX STATE` | Product / J History | History / Session Summary | `/history` selected session | View report, practice again, reuse JD context | `screens/candidate/history-session-summary.png` |
-| `TOP-LEVEL SCREEN` | Product / K Billing | Billing / Credits Overview | `/billing` | Current balance, transparent use history | `screens/candidate/billing-credits-overview.png` |
-| `TOP-LEVEL SCREEN` | Product / K Billing | Billing / Purchase Credits | `/billing` purchase state | Unapproved package values marked design placeholders | `screens/candidate/billing-purchase-credits.png` |
-| `PROCESS STATE` | Product / K Billing | Billing / Payment Processing | Billing transition | No gateway branding assumed | `screens/candidate/billing-payment-processing.png` |
-| `PROCESS STATE` | Product / K Billing | Billing / Payment Success | Billing transition | Confirmation and updated balance context | `screens/candidate/billing-payment-success.png` |
-| `PROCESS STATE` | Product / K Billing | Billing / Payment Failed | Billing transition | Explain retry and payment-method route without blame | `screens/candidate/billing-payment-failed.png` |
-| `TOP-LEVEL SCREEN` | Product / K Billing | Billing / Transaction History | `/billing` | Creditable, readable ledger | `screens/candidate/billing-transaction-history.png` |
-| `TOP-LEVEL SCREEN` | Product / L Profile | Profile / Personal Information | `/profile` | Candidate account details | `screens/candidate/profile-personal-information.png` |
-| `TOP-LEVEL SCREEN` | Product / L Profile | Profile / Preferences | `/settings` | Interview/product preferences only | `screens/candidate/profile-preferences.png` |
-| `TOP-LEVEL SCREEN` | Product / L Profile | Profile / Security | `/profile`, `/settings` | Password and account security route | `screens/candidate/profile-security.png` |
-| `TOP-LEVEL SCREEN` | Product / M Admin shell | Admin Shell / Desktop | `/admin` layout | Dense but calm operational navigation | `screens/admin/admin-shell-desktop.png` |
-| `TOP-LEVEL SCREEN` | Product / N Admin dashboard | Admin / Dashboard | `/admin/dashboard` | Operational sessions, service health context, pending review | `screens/admin/admin-dashboard.png` |
-| `TOP-LEVEL SCREEN` | Product / O Admin users | Admin / Users / List | `/admin/users` | Search, filter, account status, credits, session context | `screens/admin/admin-users-list.png` |
-| `SUPPORTING UX STATE` | Product / O Admin users | Admin / Users / Detail | `/admin/users` selected user | Relevant account/status/credit/interview context | `screens/admin/admin-users-detail.png` |
-| `TOP-LEVEL SCREEN` | Product / P Admin sessions | Admin / Sessions / List | `/admin/interviews` | Status, candidate, role, duration, report availability, technical-error flag | `screens/admin/admin-sessions-list.png` |
-| `SUPPORTING UX STATE` | Product / P Admin sessions | Admin / Session / Detail | `/admin/interviews` selected session | Session metadata; no fabricated transcript | `screens/admin/admin-session-detail.png` |
-| `TOP-LEVEL SCREEN` | Product / Q Admin technical content | Admin / Technical Domains | `/admin/domains` | Domains and skill configuration | `screens/admin/admin-technical-domains.png` |
-| `TOP-LEVEL SCREEN` | Product / Q Admin technical content | Admin / Question / Content List | `/admin/questions` | Question/configuration content list | `screens/admin/admin-question-content-list.png` |
-| `SUPPORTING UX STATE` | Product / Q Admin technical content | Admin / Content Edit | `/admin/questions` editing state | Structured question/configuration form | `screens/admin/admin-content-edit.png` |
-| `TOP-LEVEL SCREEN` | Product / R Admin avatars and voices | Admin / Avatars | `/admin/avatars` | Interviewer asset catalog | `screens/admin/admin-avatars.png` |
-| `SUPPORTING UX STATE` | Product / R Admin avatars and voices | Admin / Avatar Detail/Edit | `/admin/avatars` detail state | Asset metadata and availability | `screens/admin/admin-avatar-detail-edit.png` |
-| `SUPPORTING UX STATE` | Product / R Admin avatars and voices | Admin / Voices | `/admin/voices` | Voice catalog | `screens/admin/admin-voices.png` |
-| `SUPPORTING UX STATE` | Product / R Admin avatars and voices | Admin / Voice Detail/Edit | `/admin/voices` detail state | Voice metadata and availability | `screens/admin/admin-voice-detail-edit.png` |
-| `TOP-LEVEL SCREEN` | Product / S Admin billing | Admin / Billing Overview | `/admin/billing` | Credit/payment operations overview | `screens/admin/admin-billing-overview.png` |
-| `SUPPORTING UX STATE` | Product / S Admin billing | Admin / Transactions | `/admin/billing` transaction state | Filtered operational ledger | `screens/admin/admin-transactions.png` |
-| `TOP-LEVEL SCREEN` | Product / T Admin settings | Admin / Settings | `/admin/settings` | Meaningful operational settings only | `screens/admin/admin-settings.png` |
-| `SYSTEM STATE` | Product / U System states | System / 403 Permission Denied | Route/error boundary | Ask user to return to an allowed area | `screens/system/403-permission-denied.png` |
-| `SYSTEM STATE` | Product / U System states | System / 404 Not Found | `not-found.tsx` | Clear route recovery | `screens/system/404-not-found.png` |
-| `SYSTEM STATE` | Product / U System states | System / 500 Unexpected Error | `global-error.tsx`, candidate error | Plain retry/recovery guidance | `screens/system/500-unexpected-error.png` |
-| `SYSTEM STATE` | Product / U System states | System / Offline Connection Issue | Network-dependent routes | Show saved-context/retry language where possible | `screens/system/offline-connection-issue.png` |
-| `SYSTEM STATE` | Product / U System states | System / Generic Empty | Reusable app state | Explain absence and next action | `screens/system/generic-empty.png` |
-| `SYSTEM STATE` | Product / U System states | System / Generic Skeleton | Reusable app state | Content-shape loading treatment | `screens/system/generic-skeleton.png` |
-| `SYSTEM STATE` | Product / U System states | System / Generic Inline Error | Reusable app state | Local, recoverable form/data error | `screens/system/generic-inline-error.png` |
-| `SYSTEM STATE` | Product / U System states | System / No Credits | Billing/setup gate | Clear purchase or return route | `screens/system/no-credits.png` |
-| `SYSTEM STATE` | Product / U System states | System / No Job Descriptions | JD/history entry state | Start JD flow | `screens/system/no-job-descriptions.png` |
-| `SYSTEM STATE` | Product / U System states | System / No Interview History | History state | Start practice flow | `screens/system/no-interview-history.png` |
-| `SYSTEM STATE` | Product / U System states | System / No Report Available | Reports/history state | Explain evaluation availability and recovery | `screens/system/no-report-available.png` |
+- **Non-screen:** raw JD normalization, AI extraction orchestration, internal Interview Blueprint generation, GLB-to-VRM conversion/persistence, payment callbacks, generic Question selection, evaluation processing, and abandoned-session cleanup.
+- **Removed from canonical UX:** Candidate Blueprint Builder/Preview/Confirmation; credit wallet, credit packs, credit gates, and public pricing; Administrator 3D Avatar Catalog and Interview Background/Environment Catalog; separate Corporate JD; organizations/tenants; full ATS workflows.
