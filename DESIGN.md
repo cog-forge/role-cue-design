@@ -1,6 +1,6 @@
 # RoleCue Design System & Product Contract
 
-This is the contract entrypoint for people designing, reviewing, or implementing RoleCue. It synchronizes product and UX scope without changing the approved visual language.
+This is the current RoleCue design contract for people designing, reviewing, or implementing RoleCue. It synchronizes product and UX scope and defines the current visual authority model. Where older assets or references conflict with this contract, this contract governs RoleCue's visual direction.
 
 ## 1. Canonical authority hierarchy
 
@@ -18,24 +18,40 @@ When sources conflict, use the following order:
 
 The finalized formal use-case count is **57**. [`SCREEN-INVENTORY.md`](./SCREEN-INVENTORY.md) is the repository's current manifest of the **70 retained user-facing screens and subviews**: 48 `DRAW` and 22 `DOC-ONLY`. Internal automation is not a screen deliverable.
 
-### Visual truth
+### Visual authority
 
-[`references/open-design/source-system/`](./references/open-design/source-system/) is the canonical RoleCue visual language. Its contents are read-only. In particular, do not reinterpret, recolor, retokenize, or reconstruct it during product-contract work.
+Visual authority has two complementary layers. OpenDesign is the structural, interaction, and editorial reference for how an interface is constructed. RoleCue's approved brand assets and this current brand contract define whose interface it is and how RoleCue is visually expressed. OpenDesign's own branding and source colors are not RoleCue brand tokens.
+
+#### Structural / interaction / editorial authority
+
+The frozen [`references/open-design/source-system/`](./references/open-design/source-system/) material is the primary reference for:
+
+- composition and layout geometry
+- typography hierarchy and spacing rhythm
+- surface treatment, border/elevation discipline, and information density
+- responsive behavior and interaction patterns
+- motion restraint and editorial presentation grammar
+
+The source files are read-only reference evidence. Their original green/lime branding and tokens are intentionally preserved there, but do not define RoleCue's brand color.
 
 - [`SOURCE-DESIGN.md`](./references/open-design/source-system/SOURCE-DESIGN.md) — design-construction thesis, layout, surface, and interaction grammar.
-- [`SOURCE-TOKENS.md`](./references/open-design/source-system/SOURCE-TOKENS.md) — colors, typography, spacing, radii, elevation, and borders.
+- [`SOURCE-TOKENS.md`](./references/open-design/source-system/SOURCE-TOKENS.md) — source colors, typography, spacing, radii, elevation, and borders.
 - [`SOURCE-PATTERNS.md`](./references/open-design/source-system/SOURCE-PATTERNS.md) — architectural layout and presentation patterns.
 - [`SOURCE-COMPONENTS.md`](./references/open-design/source-system/SOURCE-COMPONENTS.md) — component appearance, interaction physics, controls, and states.
+
+#### RoleCue brand authority
+
+RoleCue's canonical approved brand assets and this current brand contract define product identity, logo/mark, wordmark, brand color, brand accent usage, and product-specific visual expression. The approved team RoleCue logo/mark is authoritative. OpenDesign branding itself is not RoleCue branding, and RoleCue is not required to preserve OpenDesign's Signal Lime.
 
 ### Provenance and frozen references
 
 - [`SOURCE-AUDIT.md`](./references/open-design/source-system/SOURCE-AUDIT.md) records the source extraction audit.
 - [`references/open-design/*.webp`](./references/open-design/) are frozen visual-memory references.
-- [`brand/`](./brand/) contains the approved RoleCue Split Halo vector assets.
+- [`brand/`](./brand/) contains historical approved RoleCue vector assets; its blue identity assets still require synchronization with the current direction below.
 - Existing PNGs in [`screens/`](./screens/) and [`flows/`](./flows/) are preserved visual artifacts. Their current product status is explicitly classified in [`SCREEN-INVENTORY.md`](./SCREEN-INVENTORY.md) and [`flows/NOTES.md`](./flows/NOTES.md).
 
 > [!important]
-> Product wording and navigation may change as canonical RoleCue scope changes. The OpenDesign-derived visual system does not. No intermediate visual-adaptation layer is authorized.
+> Product wording and navigation may change as canonical RoleCue scope changes. RoleCue's brand layer is applied to the construction grammar in the frozen OpenDesign reference. This contract supersedes older RoleCue color direction in historical assets; canonical blue brand assets must be synchronized. OpenDesign source files remain frozen and must not be recolored.
 
 ## 2. Product definition and boundaries
 
@@ -67,16 +83,21 @@ RoleCue is an AI-supported technical interview practice platform with a lightwei
 
 ## 3. Brand identity and visual thesis
 
-RoleCue retains the approved Split Halo identity and the OpenDesign-derived design-construction studio system.
+The canonical RoleCue identity is BLUE. The approved team RoleCue logo/mark is authoritative. Blue is a restrained, intentional product identity/accent color, not a mandate for a blue-heavy interface. Near-black remains the primary action and text authority. Neutral near-white/white surfaces remain the primary canvas and material system. Rich imagery and media may carry more chroma than interface chrome.
 
-- Cool off-white canvas with subtle atmosphere; raised white material surfaces.
-- Heavy charcoal Albert Sans typography.
-- Signal Lime reserved for active, ready, verified, turn-taking, and measurement signals rather than full-bleed decoration.
-- Architectural 1 px hairlines and broad, diffused elevation.
-- Sentence-case interface language, accessible focus/status semantics, and an anti-card-soup discipline.
-- No robot-head, cyber, dark-gamer, rainbow-gradient, generic-chat-widget, or surveillance visual grammar.
+> Blue identifies RoleCue. Black drives action. Media carries emotion.
 
-Canonical vector assets remain in [`brand/`](./brand/): [`rolecue-logo.svg`](./brand/rolecue-logo.svg), [`rolecue-icon.svg`](./brand/rolecue-icon.svg), and [`rolecue-wordmark.svg`](./brand/rolecue-wordmark.svg). Do not typeset the custom wordmark with a substitute font.
+Keep the interface bright, editorial, professional, modern, restrained, and high-craft. Use blue purposefully for brand recognition and selected accents; preserve clear action hierarchy through near-black. Maintain generous neutral surfaces, disciplined borders/elevation, and readable typography.
+
+Explicitly reject blue-purple AI gradients, neon blue glow, cyberpunk styling, glassmorphism, generic AI blobs, excessive pill UI, dense card soup, and arbitrary decorative blue everywhere. Do not recolor third-party provider brands into RoleCue blue.
+
+Canonical approved brand assets belong in [`brand/`](./brand/). The current directory still contains the historical Split Halo assets [`rolecue-logo.svg`](./brand/rolecue-logo.svg), [`rolecue-icon.svg`](./brand/rolecue-icon.svg), and [`rolecue-wordmark.svg`](./brand/rolecue-wordmark.svg); they are preserved, but their green accent does not supersede this contract. Canonical blue brand assets must be synchronized by the team. Do not fabricate or recolor those assets, and do not typeset a custom wordmark with a substitute font.
+
+### OpenDesign adaptation rule
+
+OpenDesign implementation and reference material may be studied and decomposed for design intent. Production RoleCue UI must be re-authored through the RoleCue brand layer. Reuse construction grammar such as navbar geometry, hero composition, spacing, typography hierarchy, motion behavior, interaction physics, and responsive logic. Do not literally copy OpenDesign branding, its green/lime accent, logos, product wording, or proprietary identity.
+
+**Reuse the grammar, not the branding.**
 
 ## 4. Core product shells
 
